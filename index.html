@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>당세 상품 목록 - 세금 절약의 즐거움</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap');
+        
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            line-height: 1.6;
+            color: #2d3748;
+            margin: 0;
+            padding: 0;
+            background-color: #f7fafc;
+        }
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: auto;
+            overflow: hidden;
+            padding: 0 20px;
+        }
+        header {
+            background: linear-gradient(135deg, #1a365d, #2b6cb0);
+            color: #ffffff;
+            padding: 20px 0;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            animation: colorChange 5s infinite alternate;
+        }
+        @keyframes colorChange {
+            0% { color: #ffffff; }
+            50% { color: #63b3ed; }
+            100% { color: #ffffff; }
+        }
+        nav {
+            background: #2d3748;
+            padding: 10px 0;
+        }
+        nav ul {
+            padding: 0;
+            list-style: none;
+            text-align: center;
+        }
+        nav li {
+            display: inline;
+            margin: 0 15px;
+        }
+        nav a {
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 18px;
+            transition: color 0.3s ease;
+        }
+        nav a:hover {
+            color: #63b3ed;
+        }
+        main {
+            padding: 40px 0;
+        }
+        .product-section {
+            background: #ffffff;
+            margin-bottom: 30px;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease;
+        }
+        .product-section:hover {
+            transform: translateY(-5px);
+        }
+        .product-section h2 {
+            color: #1a365d;
+            border-bottom: 3px solid #3182ce;
+            padding-bottom: 10px;
+            font-size: 1.8em;
+        }
+        .product-list {
+            list-style: none;
+            padding: 0;
+        }
+        .product-list li {
+            margin-bottom: 15px;
+            padding: 10px;
+            background: #f8fafc;
+            border-radius: 5px;
+            transition: background 0.3s ease;
+        }
+        .product-list li:hover {
+            background: #ebf8ff;
+        }
+        .product-list a {
+            color: #2b6cb0;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+        .product-list a:hover {
+            color: #4299e1;
+        }
+        footer {
+            background: #2d3748;
+            color: #ffffff;
+            text-align: center;
+            padding: 20px 0;
+            margin-top: 40px;
+        }
+        .scroll-to-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #3182ce;
+            color: #ffffff;
+            padding: 10px 15px;
+            border-radius: 50%;
+            text-decoration: none;
+            display: none;
+            transition: background 0.3s ease;
+        }
+        .scroll-to-top:hover {
+            background: #4299e1;
+        }
+        #tax-savings {
+            font-size: 1.2em;
+            text-align: center;
+            margin-top: 20px;
+            color: #1a365d;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>당세 상품 목록 - 세금 절약의 즐거움</h1>
+        </div>
+    </header>
+
+    <nav>
+        <div class="container">
+            <ul>
+                <li><a href="#main-products">DH 계산기</a></li>
+                <li><a href="#prep-products">준비 상품</a></li>
+                <li><a href="#calc-products">계산기</a></li>
+                <li><a href="#other-products">기타 상품</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="container">
+        <div id="tax-savings">지금까지 고객님들이 절약한 세금: <span id="savings-amount">0</span>원</div>
+
+        <section id="main-products" class="product-section">
+            <h2>대한세무법인 계산기</h2>
+            <ul class="product-list">
+                <li><a href="세무대리 보수기준표.html">세무대리 보수기준표</a></li>
+                <li><a href="pc방 매출 환산표.html">pc방 매출 환산표</a></li>
+               
+               
+            </ul>
+        </section>
+
+        <section id="prep-products" class="product-section">
+            <h2>당세 준비 상품 목록</h2>
+                        <ul class="product-list">
+                
+                <li><a href="전환사채평가.html">전환사채평가</a></li>
+            </ul>
+        </section>
+
+        <section id="calc-products" class="product-section">
+            <h2>심플계산기 - 유도목적 상품 목록</h2>
+            <ul class="product-list">
+                <li><a href="cal_Inherit_simple.html">단순한 상속세 계산기</a></li>
+                <li><a href="transferTaxAfterInheritance.html">상속후 양도세 계산하기 </a></li>
+                <li><a href="종합소득세 수정신고.html">종합소득세 수정 신고 </a></li>
+            </ul>
+        </section>
+
+        <section id="other-products" class="product-section">
+            <h2>기타</h2>
+            <ul class="product-list">
+                <li><a href="inheritClass.html">상속세신고서 작성교실</a></li>
+                <li><a href="inheritFree.html">상속세보고서 프리</a></li>
+                <li><a href="inheritPremium.html">상속세보고서 프리미엄</a></li>
+                <li><a href="inheritGold.html">상속세보고서 골드</a></li>
+                <li><a href="inheritGoldAnswer.html">상속세 골드 질문 답변서 </a></li>
+                <li><a href="inheritRoyal.html">상속세보고서 로얄</a></li>
+                <li><a href="totalPropertyClaim.html">종부세경정청구</a></li>
+                <li><a href="adquisitionTaxClaim.html">상속취득세 경정청구</a></li>
+                <li><a href="inherit-tax-report.html">상속세신고서</a></li>
+                <li><a href="1. 사용처 갑 완성.html">사용처 갑</a></li>
+                <li><a href="2.사용처 을 완성.html">사용처 을</a></li>
+            </ul>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2023 당세. 모든 권리 보유. 세금 절약의 첫 걸음, 당세와 함께하세요!</p>
+        </div>
+    </footer>
+
+    <a href="#" class="scroll-to-top" id="scroll-btn">↑</a>
+
+    <script>
+        // 스크롤 버튼 표시/숨김
+        window.onscroll = function() {
+            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                document.getElementById("scroll-btn").style.display = "block";
+            } else {
+                document.getElementById("scroll-btn").style.display = "none";
+            }
+        };
+
+        // 절약된 세금 금액 애니메이션
+        function animateSavings() {
+            let savings = 0;
+            const target = 1000000000; // 10억원
+            const duration = 5000; // 5초
+            const step = target / (duration / 50); // 50ms마다 업데이트
+
+            const timer = setInterval(() => {
+                savings += step;
+                if (savings >= target) {
+                    clearInterval(timer);
+                    savings = target;
+                }
+                document.getElementById('savings-amount').textContent = Math.floor(savings).toLocaleString();
+            }, 50);
+        }
+
+        // 페이지 로드 시 애니메이션 시작
+        window.onload = animateSavings;
+    </script>
+</body>
+</html>
