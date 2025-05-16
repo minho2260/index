@@ -317,12 +317,14 @@
                                     <input type="checkbox" id="personal-option2">
                                     기타 중점관리기업
                                     <select id="personal-option2-percent" class="option-select" onchange="onPercentChange(this, 'personal-option2'); calculatePersonalFee(); event.stopPropagation();" onclick="event.stopPropagation()">
-                                        <option value="0.05">5%</option>
                                         <option value="0.1">10%</option>
-                                        <option value="0.15">15%</option>
                                         <option value="0.2" selected>20%</option>
-                                        <option value="0.25">25%</option>
                                         <option value="0.3">30%</option>
+                                        <option value="0.4">40%</option>
+                                        <option value="0.5">50%</option>
+                                        <option value="0.6">60%</option>
+                                        <option value="0.7">70%</option>
+                                        <option value="1.0">100%</option>
                                     </select>
                                 </label>
                                 <label class="option-button" onclick="toggleBookkeepingOption(this, 'personal-refund-option')">
@@ -586,7 +588,7 @@
                         <label class="option-button" onclick="toggleOption('bookkeeping-option1', this)">
                             <input type="checkbox" id="bookkeeping-option1">
                             4대보험 신고 대행 추가 (인원수에 따라 20,000원+)
-                            <input type="number" id="bookkeeping-option1-count" placeholder="인원수" min="1" style="width: 70px; margin-left: 5px; padding: 3px;" oninput="onInputChange(this, 'bookkeeping-option1'); calculateBookkeepingFee(); event.stopPropagation();" onclick="event.stopPropagation()">
+                            <input type="number" id="bookkeeping-option1-count" placeholder="인원수" min="1" style="width: 70px; margin-left: 5px; padding: 3px;" oninput="onInputChange(this, 'bookkeeping-option1'); calculateBookkeepingFee(); checkEmptyPersonCount(this); event.stopPropagation();" onclick="event.stopPropagation()">
                         </label>
                         <label class="option-button" onclick="toggleOption('bookkeeping-option2', this)">
                             <input type="checkbox" id="bookkeeping-option2">
@@ -1227,6 +1229,17 @@
             return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         }
         
+        // 인원수 입력 필드가 비어있는지 확인하고 앱 종료
+        function checkEmptyPersonCount(inputElement) {
+            if (inputElement.value === '') {
+                // window.close(); // 앱 종료 대신
+                const checkbox = document.getElementById('bookkeeping-option1');
+                checkbox.checked = false;
+                inputElement.closest('.option-button').classList.remove('active');
+                calculateBookkeepingFee(); // 계산 업데이트
+            }
+        }
+        
         // PDF 생성 함수
         function generatePDF() {
             const element = document.querySelector('.container');
@@ -1238,7 +1251,6 @@
                 jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
             };
             
-            // PDF 생성 시작
             html2pdf().set(opt).from(element).save();
         }
         
