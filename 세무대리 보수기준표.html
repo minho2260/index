@@ -113,57 +113,117 @@
             /* 반응형 스타일 */
             @media (max-width: 768px) {
                 body {
-                    padding: 8px;
+                    padding: 5px;
+                    font-size: 14px;
                 }
                 h1 {
-                    font-size: 1.5rem;
-                    margin-bottom: 20px;
+                    font-size: 1.4rem;
+                    margin-bottom: 15px;
                 }
                 h2 {
-                    font-size: 1.3rem;
+                    font-size: 1.2rem;
                 }
                 .tab-button {
                     font-size: 0.8rem;
                     padding: 8px 5px;
                     width: 100%;
-                    flex: 1 0 45%;
+                    margin-bottom: 2px;
                 }
                 table {
-                    font-size: 0.8rem;
+                    font-size: 0.75rem;
                 }
                 th, td {
-                    padding: 6px 4px;
+                    padding: 6px 3px;
                 }
                 .notes {
                     font-size: 0.8rem;
+                    padding: 10px;
                 }
                 .notes h3 {
-                    font-size: 1rem;
+                    font-size: 0.95rem;
+                }
+                .option-button {
+                    font-size: 0.85rem;
+                    padding: 6px 8px;
+                    width: 100%;
+                    display: block;
+                    margin: 3px 0;
+                }
+                input[type="text"], input[type="number"], select {
+                    font-size: 0.9rem;
+                    padding: 6px;
+                }
+                button {
+                    font-size: 0.95rem;
+                    padding: 8px 12px;
+                }
+                .pdf-button {
+                    position: static;
+                    margin: 10px auto;
+                    display: block;
+                    width: 100%;
+                    max-width: 200px;
+                }
+                /* 계산기 컨테이너 개선 */
+                #adjustment > div, #accounting > div {
+                    flex-direction: column !important;
+                }
+                /* 모바일에서 가로 스크롤 허용 */
+                .options-container {
+                    flex-wrap: nowrap;
+                    overflow-x: auto;
+                    -webkit-overflow-scrolling: touch;
+                    padding-bottom: 5px;
                 }
             }
             
             @media (max-width: 480px) {
+                body {
+                    padding: 3px;
+                    font-size: 13px;
+                }
                 h1 {
-                    font-size: 1.3rem;
+                    font-size: 1.2rem;
                 }
                 h2 {
                     font-size: 1.1rem;
                 }
                 table {
-                    font-size: 0.75rem;
+                    font-size: 0.7rem;
                 }
                 th, td {
-                    padding: 5px 3px;
+                    padding: 4px 2px;
                 }
                 .tab-button {
                     font-size: 0.75rem;
-                    padding: 8px 3px;
-                    margin-right: 2px;
-                    flex: 1 0 100%;
+                    padding: 6px 3px;
+                    margin-right: 1px;
                 }
                 .table-container {
                     overflow-x: auto;
                     -webkit-overflow-scrolling: touch;
+                }
+                .option-button {
+                    font-size: 0.8rem;
+                    padding: 5px 6px;
+                }
+                input[type="text"], input[type="number"], select {
+                    font-size: 0.85rem;
+                    padding: 5px;
+                    min-height: 30px;
+                }
+                #personal-bookkeeping-amount, #personalB-bookkeeping-amount, #personal-refund-amount {
+                    width: 100px !important;
+                }
+                #bookkeeping-option1-count {
+                    min-width: 40px;
+                }
+                /* PDF 버튼 모바일 최적화 */
+                .pdf-button {
+                    font-size: 0.95rem;
+                    padding: 8px;
+                    bottom: 10px;
+                    right: 10px;
                 }
             }
             
@@ -286,7 +346,7 @@
             <!-- 세무조정계산서 작성 보수표 -->
             <div id="adjustment" class="tab-content active">
                 <div style="display: flex; align-items: center; justify-content: space-between;">
-                    <h2 style="margin-bottom: 0;">세무조정계산서 작성 보수표 (VAT 별도)</h2>
+                    <h2 style="margin-bottom: 0;">세무조정계산서 작성 보수액 계산기 (VAT 별도)</h2>
                     <!-- PDF 저장 버튼을 제목 오른쪽에 고정 -->
                     <button class="pdf-button" style="position: static; margin-left: 20px; margin-bottom: 0;" onclick="generatePDF()">PDF 저장</button>
                 </div>
@@ -416,7 +476,11 @@
                 <div style="display: flex; flex-wrap: wrap; gap: 20px; justify-content: space-between;">
                     <!-- 개인 보수표 -->
                     <div style="flex: 1; min-width: 45%;">
-                        <div class="table-container">
+                        <div class="toggle-header" onclick="toggleTable('personal-table-container')" style="cursor: pointer; background-color: #e6f3ff; padding: 10px; border-radius: 5px; margin-bottom: 5px; display: flex; justify-content: space-between; align-items: center;">
+                            <h3 style="margin: 0; color: #005a9e;">개인 보수기준표 </h3>
+                            <span id="personal-table-toggle" style="font-weight: bold;">▼</span>
+                        </div>
+                        <div id="personal-table-container" class="table-container" style="display: none;">
                             <table>
                                 <thead>
                                     <tr>
@@ -481,21 +545,27 @@
                             </table>
                         </div>
                         
-                        <div class="notes" style="margin-top: 15px; margin-bottom: 5px;">
-                            <h4 style="color: #005a9e; margin-top: 0; font-size: 1rem;">개인 참고 사항</h4>
+                        <div class="toggle-header" onclick="toggleTable('personal-notes')" style="cursor: pointer; background-color: #f9f9f9; padding: 10px; border-radius: 5px; margin-top: 15px; margin-bottom: 5px; display: flex; justify-content: space-between; align-items: center;">
+                            <h4 style="margin: 0; color: #005a9e; font-size: 1rem;">개인 참고 사항 </h4>
+                            <span id="personal-notes-toggle" style="font-weight: bold;">▼</span>
+                        </div>
+                        <div id="personal-notes" class="notes" style="display: none; margin-top: 0; margin-bottom: 5px;">
                             <ul style="font-size: 0.9rem; list-style-type: none; padding-left: 0px;">
                                 <li>&#9312; 결산업무,세무조정 및 원가계산을 함께 수행하는경우, 상기 보수표에 30%가산</li>
                                 <li>&#9313; 구분은 자산총액과 수입금액 중 큰 금액으로 함.</li>
                                 <li>&#9314; 이월결손금 공제는 환급액의 10% 추가청구. (다른 공제감면은 청구하지않음)</li>
                                 <li>&#9315; 창업중소기업,청년창업중소기업 감면에 대해 검토시, 15% 추가가산한다.</li>
                             </ul>
-                            </ul>
                         </div>
                     </div>
                     
                     <!-- 개인B 보수표 -->
                     <div style="flex: 1; min-width: 45%;">
-                        <div class="table-container">
+                        <div class="toggle-header" onclick="toggleTable('personalB-table-container')" style="cursor: pointer; background-color: #e6f3ff; padding: 10px; border-radius: 5px; margin-bottom: 5px; display: flex; justify-content: space-between; align-items: center;">
+                            <h3 style="margin: 0; color: #005a9e;">개인B (특별개인) 보수기준표 </h3>
+                            <span id="personalB-table-toggle" style="font-weight: bold;">▼</span>
+                        </div>
+                        <div id="personalB-table-container" class="table-container" style="display: none;">
                             <table>
                                 <thead>
                                     <tr>
@@ -548,8 +618,11 @@
                             </table>
                         </div>
                         
-                        <div class="notes" style="margin-top: 15px; margin-bottom: 15px;">
-                            <h4 style="color: #005a9e; margin-top: 0; font-size: 1rem;">개인B (특별개인) 참고 사항</h4>
+                        <div class="toggle-header" onclick="toggleTable('personalB-notes')" style="cursor: pointer; background-color: #f9f9f9; padding: 10px; border-radius: 5px; margin-top: 15px; margin-bottom: 5px; display: flex; justify-content: space-between; align-items: center;">
+                            <h4 style="margin: 0; color: #005a9e; font-size: 1rem;">개인B (특별개인) 참고 사항 </h4>
+                            <span id="personalB-notes-toggle" style="font-weight: bold;">▼</span>
+                        </div>
+                        <div id="personalB-notes" class="notes" style="display: none; margin-top: 0; margin-bottom: 15px;">
                             <ul style="font-size: 0.9rem; list-style-type: none; padding-left: 0px;">
                                 <li>&#9312; 특별업종 중 중점관리업종 및 외형 5억 이상은 40% 가산</li>
                                 <li>&#9313; 기타 특별관리업종은 20% 가산</li>
@@ -566,7 +639,7 @@
             <div id="accounting" class="tab-content">
                 <p style= "text-align:center; font-weight: bold; font-size: 1.2rem; margin-bottom: 5px;">본 기준은 세무사법 개정으로 한국세무사회 보수표가 폐지됨에 따라<br>당 사무소의 운용을 위해 보수기준을 정한 것이며, 부가세 10%는 별도임</p>
                 <div style="display: flex; align-items: center; justify-content: space-between;">
-                    <h2 style="margin-bottom: 0;">기장대행보수표 (VAT 별도)</h2>
+                    <h2 style="margin-bottom: 0;">기장대행보수액 계산기 (VAT 별도)</h2>
                     <button class="pdf-button" style="position: static; margin-left: 20px; margin-bottom: 0;" onclick="generateAccountingPDF()">PDF 저장</button>
                 </div>
                 
@@ -617,7 +690,11 @@
                     <div id="bookkeeping-result" style="margin-top: 10px; font-weight: bold;"></div>
                 </div>
                 
-                <div class="table-container">
+                <div class="toggle-header" onclick="toggleTable('bookkeeping-table-container')" style="cursor: pointer; background-color: #e6f3ff; padding: 10px; border-radius: 5px; margin-bottom: 5px; display: flex; justify-content: space-between; align-items: center;">
+                    <h3 style="margin: 0; color: #005a9e;">기장대행 보수기준표 (보려면 클릭)</h3>
+                    <span id="bookkeeping-table-toggle" style="font-weight: bold;">▼</span>
+                </div>
+                <div id="bookkeeping-table-container" class="table-container" style="display: none;">
                     <div style="text-align: right; margin-bottom: 0px; font-size: 1rem;"><small>[단위: 원]</small></div>
                     <table>
                         <thead>
@@ -679,8 +756,11 @@
                     </table>
                 </div>
                 
-                <div class="notes">
-                    <h3>기장대행 참고 사항</h3>
+                <div class="toggle-header" onclick="toggleTable('bookkeeping-notes')" style="cursor: pointer; background-color: #f9f9f9; padding: 10px; border-radius: 5px; margin-top: 15px; margin-bottom: 5px; display: flex; justify-content: space-between; align-items: center;">
+                    <h4 style="margin: 0; color: #005a9e; font-size: 1rem;">기장대행 참고 사항 (보려면 클릭)</h4>
+                    <span id="bookkeeping-notes-toggle" style="font-weight: bold;">▼</span>
+                </div>
+                <div id="bookkeeping-notes" class="notes" style="display: none; margin-top: 0;">
                     <ul style="list-style-type: none; padding-left: 0px;">
                         <li>&#9312; 기준금액은 자산/수입금액 중 큰것 기준</li>
                         <li>&#9313; 개인 B : 의료,부임,음숙,서비스업 등, 상반기 가결산업체 등 특별관리업체</li>
@@ -1174,8 +1254,11 @@
                 let additionalFees = 0;
                 let additionalDescription = "";
                 
+                // 협의 필요 여부 체크
+                const isNegotiationRequired = feeDescription === "협의 필요";
+                
                 // 4대보험 신고 대행
-                if (document.getElementById('bookkeeping-option1').checked) {
+                if (document.getElementById('bookkeeping-option1').checked && !isNegotiationRequired) {
                     const personCount = parseInt(document.getElementById('bookkeeping-option1-count').value);
                     if (!isNaN(personCount) && personCount > 0) {
                         const insuranceFee = Math.max(20000, personCount * 5000);
@@ -1188,21 +1271,21 @@
                 }
                 
                 // 수시 내방 방문 지도업체
-                if (document.getElementById('bookkeeping-option2').checked) {
+                if (document.getElementById('bookkeeping-option2').checked && !isNegotiationRequired) {
                     const visitFee = parseInt(document.getElementById('bookkeeping-option2-amount').value);
                     additionalFees += visitFee;
                     additionalDescription += `<br>+ 수시 내방 방문 지도: ${formatNumber(visitFee)}원`;
                 }
                 
                 // PC방 업체 인건비 신고
-                if (document.getElementById('bookkeeping-option3').checked) {
+                if (document.getElementById('bookkeeping-option3').checked && !isNegotiationRequired) {
                     fee = 110000;
                     feeDescription = "PC방 업체 인건비 신고: 110,000원";
                     bracket = "PC방 업체";
                 }
                 
                 // 일자리 안정자금 신청 업체
-                if (document.getElementById('bookkeeping-option4').checked) {
+                if (document.getElementById('bookkeeping-option4').checked && !isNegotiationRequired) {
                     additionalFees += 20000;
                     additionalDescription += "<br>+ 일자리 안정자금 신청: 20,000원";
                 }
@@ -1212,14 +1295,18 @@
                 <div style="font-size: 1rem; color: #444; margin-bottom: 5px;">기준액(자산,매출금액): ${formatNumber(amount)}원 (${bracket})</div>
                 <div style="font-size: 1rem; color: #444; margin-bottom: 10px;">기본 보수기준: ${feeDescription}</div>`;
                 
-                // 추가 사항이 있는 경우만 추가
-                if (additionalDescription) {
+                // 추가 사항이 있는 경우만 추가 (협의 필요가 아닐 때만)
+                if (additionalDescription && !isNegotiationRequired) {
                     resultHTML += `<div style="font-size: 1rem; color: #444; margin-bottom: 10px;">추가 사항: ${additionalDescription}</div>`;
                 }
                 
                 // 최종 금액 표시
-                const totalFee = fee + additionalFees;
-                resultHTML += `<div style="font-size: 1.3rem; font-weight: bold; color: #000; padding: 10px; background-color: #ffffcc; border-radius: 5px; text-align: center;">최종 보수기준: ${formatNumber(Math.round(totalFee))}원</div>`;
+                if (isNegotiationRequired) {
+                    resultHTML += `<div style="font-size: 1.3rem; font-weight: bold; color: #000; padding: 10px; background-color: #ffffcc; border-radius: 5px; text-align: center;">최종 보수기준: 협의 필요</div>`;
+                } else {
+                    const totalFee = fee + additionalFees;
+                    resultHTML += `<div style="font-size: 1.3rem; font-weight: bold; color: #000; padding: 10px; background-color: #ffffcc; border-radius: 5px; text-align: center;">최종 보수기준: ${formatNumber(Math.round(totalFee))}원</div>`;
+                }
                 
                 document.getElementById('bookkeeping-result').innerHTML = resultHTML;
             }
@@ -1266,6 +1353,20 @@
                     jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
                 };
                 html2pdf().set(opt).from(accountingSection).save();
+            }
+            
+            // 테이블 표시/숨김 토글 함수 추가
+            function toggleTable(containerId) {
+                const container = document.getElementById(containerId);
+                const toggleIcon = document.getElementById(containerId + '-toggle');
+                
+                if (container.style.display === 'none') {
+                    container.style.display = 'block';
+                    toggleIcon.innerText = '▲';
+                } else {
+                    container.style.display = 'none';
+                    toggleIcon.innerText = '▼';
+                }
             }
         </script>
     </body>
