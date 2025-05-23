@@ -186,8 +186,8 @@
                     max-width: 100% !important;
                     flex: none !important;
                 }
-                /* 모바일에서 개인B 계산기와 테이블 초기 숨김 */
-                #personalB-calculator, #personalB-tables {
+                /* 모바일에서 숨김 처리용 클래스 */
+                .mobile-hidden {
                     display: none !important;
                 }
             }
@@ -865,40 +865,53 @@
                     // 모바일 화면에서는 개인 계산기만 보이도록 설정
                     switchCalculator('personal');
                 } else {
-                    // 데스크톱에서는 모두 표시
-                    document.getElementById('personal-calculator').style.display = 'block';
-                    document.getElementById('personalB-calculator').style.display = 'block';
-                    document.getElementById('personal-tables').style.display = 'block';
-                    document.getElementById('personalB-tables').style.display = 'block';
+                    // 데스크톱에서는 모두 표시 - 클래스 제거
+                    document.getElementById('personal-calculator').classList.remove('mobile-hidden');
+                    document.getElementById('personalB-calculator').classList.remove('mobile-hidden');
+                    document.getElementById('personal-tables').classList.remove('mobile-hidden');
+                    document.getElementById('personalB-tables').classList.remove('mobile-hidden');
+                    
+                    // 인라인 스타일도 제거
+                    document.getElementById('personal-calculator').style.display = '';
+                    document.getElementById('personalB-calculator').style.display = '';
+                    document.getElementById('personal-tables').style.display = '';
+                    document.getElementById('personalB-tables').style.display = '';
                     
                     // 선택 버튼 초기화
                     var calcButtons = document.getElementsByClassName('calc-selector-btn');
                     for (var i = 0; i < calcButtons.length; i++) {
                         calcButtons[i].classList.remove('active');
                     }
-                    document.getElementById('personal-calc-btn').classList.add('active');
+                    if (document.getElementById('personal-calc-btn')) {
+                        document.getElementById('personal-calc-btn').classList.add('active');
+                    }
                 }
             }
             
             // 계산기 전환 함수
             function switchCalculator(type) {
-                // 모든 계산기 숨기기
-                document.getElementById('personal-calculator').style.display = 'none';
-                document.getElementById('personalB-calculator').style.display = 'none';
-                document.getElementById('personal-tables').style.display = 'none';
-                document.getElementById('personalB-tables').style.display = 'none';
+                // 모바일에서만 작동하도록 체크
+                if (window.innerWidth > 768) {
+                    return;
+                }
                 
-                // 선택한 계산기만 표시
+                // 모든 계산기에 숨김 클래스 추가
+                document.getElementById('personal-calculator').classList.add('mobile-hidden');
+                document.getElementById('personalB-calculator').classList.add('mobile-hidden');
+                document.getElementById('personal-tables').classList.add('mobile-hidden');
+                document.getElementById('personalB-tables').classList.add('mobile-hidden');
+                
+                // 선택한 계산기만 표시 (클래스 제거)
                 if (type === 'personal') {
-                    document.getElementById('personal-calculator').style.display = 'block';
-                    document.getElementById('personal-tables').style.display = 'block';
+                    document.getElementById('personal-calculator').classList.remove('mobile-hidden');
+                    document.getElementById('personal-tables').classList.remove('mobile-hidden');
                     document.getElementById('personal-calc-btn').style.backgroundColor = '#005a9e';
                     document.getElementById('personal-calc-btn').style.color = 'white';
                     document.getElementById('personalB-calc-btn').style.backgroundColor = '#f1f1f1';
                     document.getElementById('personalB-calc-btn').style.color = '#333';
-                } else {
-                    document.getElementById('personalB-calculator').style.display = 'block';
-                    document.getElementById('personalB-tables').style.display = 'block';
+                } else if (type === 'personalB') {
+                    document.getElementById('personalB-calculator').classList.remove('mobile-hidden');
+                    document.getElementById('personalB-tables').classList.remove('mobile-hidden');
                     document.getElementById('personalB-calc-btn').style.backgroundColor = '#005a9e';
                     document.getElementById('personalB-calc-btn').style.color = 'white';
                     document.getElementById('personal-calc-btn').style.backgroundColor = '#f1f1f1';
@@ -913,7 +926,9 @@
                 document.getElementById(type + '-calc-btn').classList.add('active');
                 
                 // 선택한 계산기가 보이도록 스크롤
-                document.getElementById(type + '-calculator').scrollIntoView({ behavior: 'smooth' });
+                setTimeout(function() {
+                    document.getElementById(type + '-calculator').scrollIntoView({ behavior: 'smooth' });
+                }, 100);
             }
             
             // 체크박스 토글 함수
