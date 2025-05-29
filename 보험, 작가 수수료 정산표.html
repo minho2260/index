@@ -64,6 +64,15 @@
             font-weight: bold;
         }
         
+        /* 데스크톱 기본 스타일 */
+        .mobile-header .mobile-only-br {
+            display: none;
+        }
+        
+        .mobile-header .mobile-only-float {
+            float: none;
+        }
+        
         /* 모바일 반응형 스타일 */
         @media (max-width: 768px) {
             .number {
@@ -80,6 +89,19 @@
                 font-size: 0.8em;
                 line-height: 1.1;
             }
+            
+            .mobile-header {
+                word-break: keep-all;
+                line-height: 1.2;
+            }
+            
+            .mobile-header .mobile-only-br {
+                display: inline;
+            }
+            
+            .mobile-header .mobile-only-float {
+                float: right;
+            }
         }
     </style>
 </head>
@@ -92,7 +114,7 @@
                 <tr>
                     <th style="width: 40%;">수입금액</th>
                     <th style="width: 30%;">수수료</th>
-                    <th style="width: 30%;">환급율 / 소득율</th>
+                    <th style="width: 30%;" class="mobile-header">환급율 /<br class="mobile-only-br"><span class="mobile-only-float">소득율</span></th>
                 </tr>
             </thead>
             <tbody>
