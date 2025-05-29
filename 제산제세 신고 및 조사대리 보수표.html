@@ -196,22 +196,16 @@
                 overflow-x: auto;
                 -webkit-overflow-scrolling: touch;
                 margin: 0 -10px;
-                padding: 0 10px;
-            }
-            
-            .table-wrapper::after {
-                content: '';
-                display: block;
-                width: 40px;
-                height: 1px;
-                float: right;
-                clear: both;
+                padding: 0 10px 0 10px;
+                box-sizing: border-box;
+                width: calc(100% + 20px);
             }
             
             table {
                 min-width: 550px;
-                width: auto;
-                margin-right: 0;
+                width: 550px;
+                margin-right: 50px;
+                box-sizing: border-box;
             }
             
             th, td {
