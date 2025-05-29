@@ -196,14 +196,22 @@
                 overflow-x: auto;
                 -webkit-overflow-scrolling: touch;
                 margin: 0 -10px;
-                padding: 0 10px 0 10px;
-                padding-right: 40px;
+                padding: 0 10px;
+            }
+            
+            .table-wrapper::after {
+                content: '';
+                display: block;
+                width: 40px;
+                height: 1px;
+                float: right;
+                clear: both;
             }
             
             table {
                 min-width: 550px;
-                width: 100%;
-                margin-right: 25px;
+                width: auto;
+                margin-right: 0;
             }
             
             th, td {
@@ -242,13 +250,22 @@
             
             .table-wrapper {
                 margin: 0 -10px;
-                padding: 0 10px 0 10px;
-                padding-right: 40px;
+                padding: 0 10px;
+            }
+            
+            .table-wrapper::after {
+                content: '';
+                display: block;
+                width: 40px;
+                height: 1px;
+                float: right;
+                clear: both;
             }
             
             table {
                 min-width: 550px;
-                margin-right: 25px;
+                width: auto;
+                margin-right: 0;
             }
             
             th, td {
