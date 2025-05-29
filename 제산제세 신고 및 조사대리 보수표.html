@@ -201,11 +201,37 @@
                 width: calc(100% + 20px);
             }
             
+            .table-spacer {
+                width: 80px;
+                height: 1px;
+                display: inline-block;
+                float: right;
+                clear: both;
+            }
+            
             table {
-                min-width: 550px;
-                width: 550px;
-                margin-right: 50px;
+                min-width: 650px;
+                width: 650px;
+                margin-right: 0;
                 box-sizing: border-box;
+                display: inline-block;
+            }
+            
+            /* 컬럼별 최소 너비 설정 */
+            th:nth-child(1), td:nth-child(1) {
+                min-width: 70px;
+            }
+            th:nth-child(2), td:nth-child(2) {
+                min-width: 90px;
+            }
+            th:nth-child(3), td:nth-child(3) {
+                min-width: 80px;
+            }
+            th:nth-child(4), td:nth-child(4) {
+                min-width: 80px;
+            }
+            th:nth-child(5), td:nth-child(5) {
+                min-width: 80px;
             }
             
             th, td {
@@ -325,11 +351,21 @@
             .note {
                 font-size: 14px;
                 margin-top: 15px;
-                line-height: 1.4;
+                line-height: 2.2;
+            }
+            
+            /* 번호별 줄바꿈 처리 */
+            .note br {
+                display: block;
+                margin-bottom: 10px;
             }
             
             .tables-container {
                 gap: 25px;
+            }
+            
+            .table-spacer {
+                display: none;
             }
         }
     </style>
@@ -415,6 +451,7 @@
                                 </tr>
                             </tbody>
                         </table>
+                        <div class="table-spacer"></div>
                     </div>
                     <div class="note">
                         ① 사전 컨설팅/조세감면/재개발·재건축/상가주택/비사업목적<br>검토시 50% ~ 300% 가산<br>
@@ -500,6 +537,7 @@
                                 </tr>
                             </tbody>
                         </table>
+                        <div class="table-spacer"></div>
                     </div>
                     <div class="note">
                         ① 사전 컨설팅 및 조세감면, 세액공제 검토 및 적용시<br>50% ~ 200% 가산<br>
